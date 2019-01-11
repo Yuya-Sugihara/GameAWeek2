@@ -57,6 +57,7 @@
 		521A8EA919F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
+		7E7A568821E8852D00DA8B4A /* Wall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7A568621E8852D00DA8B4A /* Wall.cpp */; };
 		7ED473AB21E86F450094DB12 /* StartLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED473A921E86F450094DB12 /* StartLayer.cpp */; };
 		7ED473AE21E86F520094DB12 /* GameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED473AC21E86F520094DB12 /* GameLayer.cpp */; };
 		7ED473B121E86F620094DB12 /* ResultLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED473AF21E86F620094DB12 /* ResultLayer.cpp */; };
@@ -152,6 +153,8 @@
 		521A8E6319F0C34300D177D7 /* Default-736h@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-736h@3x.png"; sourceTree = "<group>"; };
 		521A8EA819F11F5000D177D7 /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		7E7A568621E8852D00DA8B4A /* Wall.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Wall.cpp; sourceTree = "<group>"; };
+		7E7A568721E8852D00DA8B4A /* Wall.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Wall.hpp; sourceTree = "<group>"; };
 		7ED473A921E86F450094DB12 /* StartLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StartLayer.cpp; sourceTree = "<group>"; };
 		7ED473AA21E86F450094DB12 /* StartLayer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = StartLayer.hpp; sourceTree = "<group>"; };
 		7ED473AC21E86F520094DB12 /* GameLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GameLayer.cpp; sourceTree = "<group>"; };
@@ -310,6 +313,8 @@
 				7ED473AD21E86F520094DB12 /* GameLayer.hpp */,
 				7ED473AF21E86F620094DB12 /* ResultLayer.cpp */,
 				7ED473B021E86F620094DB12 /* ResultLayer.hpp */,
+				7E7A568621E8852D00DA8B4A /* Wall.cpp */,
+				7E7A568721E8852D00DA8B4A /* Wall.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -509,6 +514,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7ED473AB21E86F450094DB12 /* StartLayer.cpp in Sources */,
+				7E7A568821E8852D00DA8B4A /* Wall.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,

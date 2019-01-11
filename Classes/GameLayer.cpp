@@ -1,6 +1,7 @@
 #include "GameLayer.hpp"
 
 #include "ResultLayer.hpp"
+#include "Wall.hpp"
 
 GameLayer::GameLayer()
 {
@@ -41,7 +42,7 @@ void GameLayer::onEnter()
     Director::getInstance()->getEventDispatcher()
     ->addEventListenerWithSceneGraphPriority(gameListener,this);
     
-    show();
+    createStage();
 }
 
 Scene* GameLayer::createScene()
@@ -56,6 +57,20 @@ Scene* GameLayer::createScene()
     return scene;
 }
 
+void GameLayer::createStage()
+{
+    auto size=Director::getInstance()->getWinSize();
+    Rect bg=Rect(0,0,size.height,size.height);
+    Sprite* sprite=Sprite::create();
+    sprite->setTextureRect(bg);
+    sprite->setPosition(size.width/2,size.height/2);
+    addChild(sprite);
+    
+    //自作スプライトクラスを作成する
+    Wall* wall=Wall::create(100,500,50,50);
+    wall->setColor(Color3B::GREEN);
+    addChild(wall);
+}
 void GameLayer::show()
 {
     Label* label=Label::createWithSystemFont("GameLayer","arial",56);

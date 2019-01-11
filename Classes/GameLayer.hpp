@@ -23,6 +23,7 @@ public:
     virtual void onTouchCancelled(Touch* touch,Event* event) override;
     
     void show();
+    void createStage();
     void changeToResultLayer();
 };
 
