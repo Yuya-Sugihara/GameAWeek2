@@ -2,6 +2,7 @@
 
 #include "ResultLayer.hpp"
 #include "Wall.hpp"
+#include "WallManager.hpp"
 
 GameLayer::GameLayer()
 {
@@ -73,11 +74,18 @@ void GameLayer::createStage()
 void GameLayer::createWall(float x,float y,float width,float height)
 {
     log("in GameLayer::createWall");
+
     Wall* wall=Wall::create(width,height);
     wall->setColor(Color3B(200,100,100));
     wall->setPosition(x,y);
     addChild(wall);
+
+    WallManager::getInstance()->addWall(wall);
+    log("size: %d",WallManager::getInstance()->getSize());
+    
+ 
 }
+
 void GameLayer::show()
 {
     Label* label=Label::createWithSystemFont("GameLayer","arial",56);
