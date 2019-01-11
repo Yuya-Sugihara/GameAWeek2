@@ -66,9 +66,16 @@ void GameLayer::createStage()
     sprite->setPosition(size.width/2,size.height/2);
     addChild(sprite);
     
-    //自作スプライトクラスを作成する
-    Wall* wall=Wall::create(100,500,50,50);
-    wall->setColor(Color3B::GREEN);
+    createWall(400,450,20,450);
+    createWall(650,400,300,10);
+}
+
+void GameLayer::createWall(float x,float y,float width,float height)
+{
+    log("in GameLayer::createWall");
+    Wall* wall=Wall::create(width,height);
+    wall->setColor(Color3B(200,100,100));
+    wall->setPosition(x,y);
     addChild(wall);
 }
 void GameLayer::show()
@@ -87,13 +94,13 @@ void GameLayer::changeToResultLayer()
 
 bool GameLayer::onTouchBegan(Touch* touch,Event* event)
 {
-    changeToResultLayer();
+    //changeToResultLayer();
     return true;
 }
 
 void GameLayer::onTouchMoved(Touch* touch,Event* event)
 {
-    
+    log("x: %f",touch->getLocation().y);
 }
 
 void GameLayer::onTouchEnded(Touch* touch,Event* event)
