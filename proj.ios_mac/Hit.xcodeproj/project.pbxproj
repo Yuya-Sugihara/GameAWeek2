@@ -58,6 +58,9 @@
 		521A8EAA19F11F5000D177D7 /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = 521A8EA819F11F5000D177D7 /* fonts */; };
 		52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52B47A461A53D09B004E4C60 /* Security.framework */; };
 		7E7A568821E8852D00DA8B4A /* Wall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7E7A568621E8852D00DA8B4A /* Wall.cpp */; };
+		7EC2036F21EA03FE00C16B71 /* Character.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2036D21EA03FE00C16B71 /* Character.cpp */; };
+		7EC2037221EA0B9500C16B71 /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2037021EA0B9500C16B71 /* Player.cpp */; };
+		7EC2037521EA149F00C16B71 /* StickButton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EC2037321EA149F00C16B71 /* StickButton.cpp */; };
 		7ECE656221E8FD9E0044AAC9 /* WallManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ECE656021E8FD9E0044AAC9 /* WallManager.cpp */; };
 		7ED473AB21E86F450094DB12 /* StartLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED473A921E86F450094DB12 /* StartLayer.cpp */; };
 		7ED473AE21E86F520094DB12 /* GameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED473AC21E86F520094DB12 /* GameLayer.cpp */; };
@@ -156,6 +159,12 @@
 		52B47A461A53D09B004E4C60 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
 		7E7A568621E8852D00DA8B4A /* Wall.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Wall.cpp; sourceTree = "<group>"; };
 		7E7A568721E8852D00DA8B4A /* Wall.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Wall.hpp; sourceTree = "<group>"; };
+		7EC2036D21EA03FE00C16B71 /* Character.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Character.cpp; sourceTree = "<group>"; };
+		7EC2036E21EA03FE00C16B71 /* Character.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Character.hpp; sourceTree = "<group>"; };
+		7EC2037021EA0B9500C16B71 /* Player.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		7EC2037121EA0B9500C16B71 /* Player.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Player.hpp; sourceTree = "<group>"; };
+		7EC2037321EA149F00C16B71 /* StickButton.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StickButton.cpp; sourceTree = "<group>"; };
+		7EC2037421EA149F00C16B71 /* StickButton.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = StickButton.hpp; sourceTree = "<group>"; };
 		7ECE656021E8FD9E0044AAC9 /* WallManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = WallManager.cpp; sourceTree = "<group>"; };
 		7ECE656121E8FD9E0044AAC9 /* WallManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = WallManager.hpp; sourceTree = "<group>"; };
 		7ED473A921E86F450094DB12 /* StartLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StartLayer.cpp; sourceTree = "<group>"; };
@@ -320,6 +329,12 @@
 				7E7A568721E8852D00DA8B4A /* Wall.hpp */,
 				7ECE656021E8FD9E0044AAC9 /* WallManager.cpp */,
 				7ECE656121E8FD9E0044AAC9 /* WallManager.hpp */,
+				7EC2036D21EA03FE00C16B71 /* Character.cpp */,
+				7EC2036E21EA03FE00C16B71 /* Character.hpp */,
+				7EC2037021EA0B9500C16B71 /* Player.cpp */,
+				7EC2037121EA0B9500C16B71 /* Player.hpp */,
+				7EC2037321EA149F00C16B71 /* StickButton.cpp */,
+				7EC2037421EA149F00C16B71 /* StickButton.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -521,7 +536,10 @@
 				7ED473AB21E86F450094DB12 /* StartLayer.cpp in Sources */,
 				7E7A568821E8852D00DA8B4A /* Wall.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				7EC2036F21EA03FE00C16B71 /* Character.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				7EC2037221EA0B9500C16B71 /* Player.cpp in Sources */,
+				7EC2037521EA149F00C16B71 /* StickButton.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				7ED473B121E86F620094DB12 /* ResultLayer.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,

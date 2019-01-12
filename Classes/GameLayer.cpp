@@ -3,6 +3,7 @@
 #include "ResultLayer.hpp"
 #include "Wall.hpp"
 #include "WallManager.hpp"
+#include "Player.hpp"
 
 GameLayer::GameLayer()
 {
@@ -69,12 +70,15 @@ void GameLayer::createStage()
     
     createWall(400,450,20,450);
     createWall(650,400,300,10);
+    
+    Player* player=Player::create(20,20);
+    player->setPosition(400,200);
+    //player->setColor(Color3B::BLUE);
+    addChild(player);
 }
 
 void GameLayer::createWall(float x,float y,float width,float height)
 {
-    log("in GameLayer::createWall");
-
     Wall* wall=Wall::create(width,height);
     wall->setColor(Color3B(200,100,100));
     wall->setPosition(x,y);
@@ -82,8 +86,6 @@ void GameLayer::createWall(float x,float y,float width,float height)
 
     WallManager::getInstance()->addWall(wall);
     log("size: %d",WallManager::getInstance()->getSize());
-    
- 
 }
 
 void GameLayer::show()
