@@ -55,12 +55,19 @@ void GameLayer::update(float dt)
 {
     
     Player* player=(Player*) getChildByTag(T_Player);
+    Vec2 newPlayerPos=Vec2::ZERO;
+    Vec2 nextMovingVector=toAddPlayerPos*mPlayerMovementRate;
     Vec2 playerPos=Vec2(player->getPosition().x,player->getPosition().y);
-    Vec2 newPlayerPos=playerPos + toAddPlayerPos*mPlayerMovementRate;
-    //float newPlayerRotation=player->getRotation()+toAddPlayerRotation;
+    if(!player->isContact(WallManager::getInstance()->getWallList(),nextMovingVector))
+    {
+        newPlayerPos=playerPos + nextMovingVector;
+    }else{
+        newPlayerPos=playerPos;
+    }
+   
     player->setPosition(newPlayerPos.x,newPlayerPos.y);
-    //player->setRotation(newPlayerRotation);
-     
+    
+    judgeGameClear();
 }
 Scene* GameLayer::createScene()
 {
@@ -81,21 +88,25 @@ void GameLayer::createStage()
     Sprite* sprite=Sprite::create();
     sprite->setTextureRect(bg);
     sprite->setPosition(size.width/2,size.height/2);
-    addChild(sprite);
+    addChild(sprite,Z_Bg);
     
     createWall(400,450,20,450);
     createWall(650,400,300,10);
     
     Player* player=Player::create(20,20);
-    player->setPosition(400,200);
+    player->setPosition(mPlayerInitPos);
     player->setTag(T_Player);
-    addChild(player);
+    addChild(player,Z_Player);
     
     Stick* stick=Stick::create();
     stick->setTag(T_Stick);
     stick->moveStick(Vec2(125,125));
-    addChild(stick);
+    addChild(stick,Z_Stick);
     
+    goal=DrawNode::create();
+    goal->drawDot(Vec2::ZERO,mGoalRadius,Color4F(0.1f,0.1f,0.1f,1.0f));
+    goal->setPosition(mGoalPos);
+    addChild(goal,Z_Bg);
 }
 
 void GameLayer::createWall(float x,float y,float width,float height)
@@ -104,7 +115,7 @@ void GameLayer::createWall(float x,float y,float width,float height)
     wall->setColor(Color3B(200,100,100));
     wall->setPosition(x,y);
     wall->setTag(T_Wall);
-    addChild(wall);
+    addChild(wall,Z_Wall);
 
     WallManager::getInstance()->addWall(wall);
     log("size: %d",WallManager::getInstance()->getSize());
@@ -118,6 +129,19 @@ void GameLayer::show()
     addChild(label);
 }
 
+void GameLayer::judgeGameClear()
+{
+    Player* player=(Player*) getChildByTag(T_Player);
+    Rect playerRect=player->getBoundingBox();
+    //playerがゴールに到達したか
+    if(playerRect.containsPoint(mGoalPos)) gameClear(100);
+    
+}
+
+void GameLayer::gameClear(int score)
+{
+    changeToResultLayer();
+}
 void GameLayer::changeToResultLayer()
 {
     Scene* scene=ResultLayer::createScene();
@@ -135,23 +159,13 @@ bool GameLayer::onTouchBegan(Touch* touch,Event* event)
 
 void GameLayer::onTouchMoved(Touch* touch,Event* event)
 {
-    Stick* stick=(Stick*) getChildByTag(T_Stick);
-    Vec2 newButtonPos=Vec2::ZERO;
-    if((touch->getLocation()-stick->getPos()).length() < mAvailableButtonLength)
-    {
-        newButtonPos=touch->getLocation();
-        stick->slideStick(newButtonPos);
-    }else{
-        newButtonPos=(touch->getLocation()-stick->getPos()).getNormalized();
-        newButtonPos=newButtonPos*mAvailableButtonLength+stick->getPos();
-        stick->slideStick(newButtonPos);
-    }
     
-    toAddPlayerPos=newButtonPos-stick->getPos();
+    Stick* stick=(Stick*) getChildByTag(T_Stick);
+
+    toAddPlayerPos=stick->slideStick(touch);
     toAddPlayerRotation=toAddPlayerPos.getAngle()*(180/M_PI);
    
     Player* player=(Player*) getChildByTag(T_Player);
-    //float newPlayerRotation=player->getRotation()+toAddPlayerRotation;
     player->setRotation(-toAddPlayerRotation);
     
 }

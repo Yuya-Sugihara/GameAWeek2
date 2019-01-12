@@ -30,13 +30,25 @@ mPos(Vec2::ZERO)
 
 void Stick::moveStick(const Vec2 touchedPos)
 {
-    setPosition(touchedPos.x,touchedPos.y);
     mPos=touchedPos;
+    setPosition(mPos.x,mPos.y);
+
     //bg->setPosition(0,0);
     //button->setPosition(0,0);
 }
-
-void Stick::slideStick(const Vec2 touchedPos)
+//
+Vec2 Stick::slideStick(Touch* touch)
 {
-    button->setPosition(touchedPos-mPos);
+    Vec2 newButtonPos=Vec2::ZERO;
+    
+    if((touch->getLocation()-mPos).length() < mAvailableButtonLength)
+    {
+        newButtonPos=touch->getLocation()-mPos;
+    }else{
+        newButtonPos=(touch->getLocation()-mPos).getNormalized();
+        newButtonPos=newButtonPos*mAvailableButtonLength;
+        
+    }
+    button->setPosition(newButtonPos);
+    return newButtonPos;
 }

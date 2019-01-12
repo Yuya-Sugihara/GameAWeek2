@@ -4,9 +4,16 @@
 WallManager* WallManager::instance=nullptr;
 
 //シングルトンクラスのインスタンスはnullptrで初期化する必要がある
+
+//todo::２週目のlistに関するクラッシュを治す
 WallManager* WallManager::getInstance()
 {
-    if(!instance) instance=new WallManager();
+    if(!instance)
+    {
+        instance=new WallManager();
+        instance->autorelease();
+        instance->retain();
+    }
     return instance;
 }
 
@@ -17,12 +24,18 @@ WallManager::WallManager()
 
 WallManager::~WallManager()
 {
-    
+    log("in WallManager::~WallManager()");
+    wallList.clear();
 }
 
 void WallManager::addWall(Wall* wall)
 {
     wallList.push_back(wall);
+}
+
+std::list<Wall*> WallManager::getWallList()
+{
+    return wallList;
 }
  
 

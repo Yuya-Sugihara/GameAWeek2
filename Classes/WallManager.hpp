@@ -16,7 +16,7 @@ class WallManager:public Ref
 public:
     static WallManager* getInstance();
     void addWall(Wall* wall);
-    std::list<Wall*>::iterator getLastWall();
+    std::list<Wall*> getWallList();
     int getSize();
 private:
     static WallManager* instance;

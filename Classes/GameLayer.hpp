@@ -14,13 +14,25 @@ enum Tag
     T_Stick
 };
 
+enum ZOrder
+{
+    Z_Bg,
+    Z_Wall,
+    Z_Player,
+    Z_Stick
+};
+
 class GameLayer:public Layer
 {
 private:
     const float mPlayerMovementRate=0.03f;
-    const float mAvailableButtonLength=100.0f;
+    const float mGoalRadius=10;
+    const Vec2 mGoalPos=Vec2(750,100);
+    const Vec2 mPlayerInitPos=Vec2(300,600);
     Vec2 toAddPlayerPos;
     float toAddPlayerRotation;
+    
+    DrawNode* goal;
 public:
     GameLayer();
     ~GameLayer();
@@ -38,7 +50,10 @@ public:
     void show();
     void createStage();
     void createWall(float x,float y,float width,float height);
+    void judgeGameClear();
+    void gameClear(int score);
     void changeToResultLayer();
+    
 };
 
 #endif /* GameLayer_hpp */

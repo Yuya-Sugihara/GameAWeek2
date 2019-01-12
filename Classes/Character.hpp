@@ -22,7 +22,7 @@ public:
     ~Character();
     
     virtual void update()=0;
-    bool isContact(Wall* wall);
+    bool isContact(std::list<Wall*> walllist,Vec2 addVector);
     
 };
 #endif /* Character_hpp */

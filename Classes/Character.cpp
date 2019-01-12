@@ -30,10 +30,20 @@ Character::~Character()
     
 }
 
-bool Character::isContact(Wall* wall)
+bool Character::isContact(std::list<Wall*> wallList,Vec2 addVector)
 {
-    Rect characterRect=this->boundingBox();
-    Rect wallRect=wall->boundingBox();
-    if(characterRect.intersectsRect(wallRect)) return true;
+    Rect characterRect=this->getBoundingBox();
+    /*
+    characterRect.size.width*=0.7f;
+    characterRect.size.height*=0.7f;
+     */
+    characterRect.origin+=addVector;
+    std::list<Wall*>::iterator it;
+    for(it=wallList.begin();it!=wallList.end();it++)
+    {
+        Rect wallRect=(*it)->getBoundingBox();
+        if(characterRect.intersectsRect(wallRect)) return true;
+    }
+
     return false;
 }

@@ -1,6 +1,7 @@
 
 #include "Player.hpp"
 #include "Character.hpp"
+#include "Muzzle.hpp"
 
 Player* Player::create(float width,float height)
 {
@@ -16,6 +17,9 @@ bool Player::init(float width,float height)
     if(!Character::init(width,height)) return false;
     setColor(characterColor);
     
+    muzzle=Muzzle::create(width/2,height/2);
+    muzzle->setPosition(width*(5/4),height/2);
+    this->addChild(muzzle);
 
     return true;
 }
@@ -28,3 +32,4 @@ void Player::update()
 {
     
 }
+
