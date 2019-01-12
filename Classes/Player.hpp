@@ -12,7 +12,7 @@ class Character;
 class Player:public Character
 {
 private:
-    //Color3B playerColor;
+    
 public:
     static Player* create(float width,float height);
     bool init(float width,float height);

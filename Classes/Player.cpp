@@ -16,6 +16,7 @@ bool Player::init(float width,float height)
     if(!Character::init(width,height)) return false;
     setColor(characterColor);
     
+
     return true;
 }
 
