@@ -4,14 +4,18 @@
 
 //#include <stdio.h>
 #include "cocos2d.h"
+#include "ui/CocosGUI.h"
 
 using namespace cocos2d;
+
+class Bullet;
 
 enum Tag
 {
     T_Wall,
     T_Player,
-    T_Stick
+    T_Stick,
+    T_Bullet
 };
 
 enum ZOrder
@@ -19,7 +23,8 @@ enum ZOrder
     Z_Bg,
     Z_Wall,
     Z_Player,
-    Z_Stick
+    Z_Stick,
+    Z_Bullet
 };
 
 class GameLayer:public Layer
@@ -46,13 +51,16 @@ public:
     virtual void onTouchMoved(Touch* touch,Event* event) override;
     virtual void onTouchEnded(Touch* touch,Event* event) override;
     virtual void onTouchCancelled(Touch* touch,Event* event) override;
+    void touchEvent(Ref* sender,ui::TouchEventType type);
     
     void show();
     void createStage();
     void createWall(float x,float y,float width,float height);
+    void createFireButton();
     void judgeGameClear();
     void gameClear(int score);
     void changeToResultLayer();
+    void removeBullet(std::list<Bullet*>* list);
     
 };
 

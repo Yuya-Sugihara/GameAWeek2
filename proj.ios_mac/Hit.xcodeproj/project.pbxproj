@@ -66,6 +66,7 @@
 		7ED473AB21E86F450094DB12 /* StartLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED473A921E86F450094DB12 /* StartLayer.cpp */; };
 		7ED473AE21E86F520094DB12 /* GameLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED473AC21E86F520094DB12 /* GameLayer.cpp */; };
 		7ED473B121E86F620094DB12 /* ResultLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7ED473AF21E86F620094DB12 /* ResultLayer.cpp */; };
+		7EEC627321EB3B0F00F6051E /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7EEC627121EB3B0F00F6051E /* Bullet.cpp */; };
 		8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8262943D1AAF051F00CB7CF7 /* Security.framework */; };
 		BF171245129291EC00B8313A /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB012928DE900B8313A /* OpenGLES.framework */; };
 		BF1712471292920000B8313A /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BF170DB412928DE900B8313A /* libz.dylib */; };
@@ -176,6 +177,8 @@
 		7ED473AD21E86F520094DB12 /* GameLayer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = GameLayer.hpp; sourceTree = "<group>"; };
 		7ED473AF21E86F620094DB12 /* ResultLayer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ResultLayer.cpp; sourceTree = "<group>"; };
 		7ED473B021E86F620094DB12 /* ResultLayer.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ResultLayer.hpp; sourceTree = "<group>"; };
+		7EEC627121EB3B0F00F6051E /* Bullet.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bullet.cpp; sourceTree = "<group>"; };
+		7EEC627221EB3B0F00F6051E /* Bullet.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Bullet.hpp; sourceTree = "<group>"; };
 		8262943D1AAF051F00CB7CF7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		BF170DB012928DE900B8313A /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BF170DB412928DE900B8313A /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
@@ -340,6 +343,8 @@
 				7EC2037421EA149F00C16B71 /* Stick.hpp */,
 				7EC2037621EA308B00C16B71 /* Muzzle.cpp */,
 				7EC2037721EA308B00C16B71 /* Muzzle.hpp */,
+				7EEC627121EB3B0F00F6051E /* Bullet.cpp */,
+				7EEC627221EB3B0F00F6051E /* Bullet.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -547,6 +552,7 @@
 				7EC2037221EA0B9500C16B71 /* Player.cpp in Sources */,
 				7EC2037521EA149F00C16B71 /* Stick.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				7EEC627321EB3B0F00F6051E /* Bullet.cpp in Sources */,
 				7ED473B121E86F620094DB12 /* ResultLayer.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				7ED473AE21E86F520094DB12 /* GameLayer.cpp in Sources */,

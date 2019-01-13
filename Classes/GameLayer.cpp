@@ -4,10 +4,11 @@
 #include "Wall.hpp"
 #include "WallManager.hpp"
 #include "Player.hpp"
+
 #include "Stick.hpp"
+#include <cmath>
 
-#include <math.h>
-
+using namespace ui;
 GameLayer::GameLayer()
 {
     
@@ -58,14 +59,19 @@ void GameLayer::update(float dt)
     Vec2 newPlayerPos=Vec2::ZERO;
     Vec2 nextMovingVector=toAddPlayerPos*mPlayerMovementRate;
     Vec2 playerPos=Vec2(player->getPosition().x,player->getPosition().y);
+    
     if(!player->isContact(WallManager::getInstance()->getWallList(),nextMovingVector))
     {
         newPlayerPos=playerPos + nextMovingVector;
     }else{
         newPlayerPos=playerPos;
     }
-   
     player->setPosition(newPlayerPos.x,newPlayerPos.y);
+    player->update();
+    
+    Muzzle* muzzle=player->getMuzzle();
+    std::list<Bullet*>* list=muzzle->getBulletList();
+    if(list->size()) removeBullet(list);
     
     judgeGameClear();
 }
@@ -107,6 +113,8 @@ void GameLayer::createStage()
     goal->drawDot(Vec2::ZERO,mGoalRadius,Color4F(0.1f,0.1f,0.1f,1.0f));
     goal->setPosition(mGoalPos);
     addChild(goal,Z_Bg);
+    
+    createFireButton();
 }
 
 void GameLayer::createWall(float x,float y,float width,float height)
@@ -121,6 +129,48 @@ void GameLayer::createWall(float x,float y,float width,float height)
     log("size: %d",WallManager::getInstance()->getSize());
 }
 
+void GameLayer::createFireButton()
+{
+    ui::Button* fireButton=ui::Button::create();
+    fireButton->setTouchEnabled(true);
+    fireButton->setPosition(Vec2(1000,200));
+    fireButton->setTitleText("FIRE");
+    fireButton->setTitleFontSize(56);
+    fireButton->setTitleColor(Color3B::RED);
+    fireButton->
+    addTouchEventListener(this,toucheventselector(GameLayer::touchEvent));
+    this->addChild(fireButton);
+}
+
+void GameLayer::touchEvent(Ref* sender,ui::TouchEventType type)
+{
+    switch(type)
+    {
+  
+        case TOUCH_EVENT_BEGAN:
+        {
+            log("fire");
+            Player* player=(Player*) getChildByTag(T_Player);
+            Muzzle* muzzle=player->getMuzzle();
+            Vec2 forwardVector=Vec2(1,1);
+            forwardVector=Vec2(forwardVector.x*std::cos( (player->getRotation()*(M_PI/180)) ),
+                               forwardVector.y*std::sin( -(player->getRotation()*(M_PI/180)) ) );
+            
+            Bullet* bullet=muzzle->fire(forwardVector);
+            bullet->setPosition(player->getPosition());
+            bullet->setRotation( -forwardVector.getAngle()*(180/M_PI) );
+            log("TOUCH_EVENT_BEGAN");
+            
+            addChild(bullet,Z_Bullet);
+            break;
+        }
+        default:
+            
+            break;
+    }
+   
+    
+}
 void GameLayer::show()
 {
     Label* label=Label::createWithSystemFont("GameLayer","arial",56);
@@ -138,6 +188,31 @@ void GameLayer::judgeGameClear()
     
 }
 
+void GameLayer::removeBullet(std::list<Bullet*>* list)
+{
+
+    std::list<Bullet*>::iterator it;
+    std::list<Bullet*>::iterator removingIt;
+    Size winSize=Director::getInstance()->getWinSize();
+    
+  
+    for(it=list->begin();it!=list->end();)
+    {
+        Vec2 pos=(*it)->getPosition();
+        if(pos.x<0 || pos.x>winSize.width || pos.y<0 || pos.y>winSize.height)
+        {
+            (*it)->removeFromParentAndCleanup(true);
+            it=list->erase(it);
+            if(!list->size() )
+            {
+                return;
+            }
+        }else{
+            (*it)->update();
+            it++;
+        }
+    }
+}
 void GameLayer::gameClear(int score)
 {
     changeToResultLayer();
@@ -150,10 +225,11 @@ void GameLayer::changeToResultLayer()
 
 bool GameLayer::onTouchBegan(Touch* touch,Event* event)
 {
-    //changeToResultLayer();
     
     Stick* stick=(Stick*) getChildByTag(T_Stick);
     stick->moveStick(touch->getLocation());
+    
+    
     return true;
 }
 

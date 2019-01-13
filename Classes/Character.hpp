@@ -23,6 +23,6 @@ public:
     
     virtual void update()=0;
     bool isContact(std::list<Wall*> walllist,Vec2 addVector);
-    
+    //bool isContact(Wall* wall,Vec2 addVector);
 };
 #endif /* Character_hpp */
