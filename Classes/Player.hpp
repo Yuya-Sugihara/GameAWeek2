@@ -10,11 +10,6 @@ using namespace cocos2d;
 
 class Muzzle;
 
-enum PlayerTag
-{
-    T_Muzzle
-};
-
 class Player:public Character
 {
 private:
@@ -28,5 +23,7 @@ public:
     
     void moveByStick(Vec2* vector);
     Muzzle* getMuzzle(){ return muzzle;}
+    
+    CC_SYNTHESIZE(Vec2,mToAddVector,ToAddVector);
 };
 #endif /* Player_hpp */

@@ -29,27 +29,5 @@ Bullet* Muzzle::fire(Vec2 direction)
 
 void Muzzle::update()
 {
-    /*
-    std::list<Bullet*>::iterator it;
-    std::list<Bullet*>::iterator removingIt;
-    Size winSize=Director::getInstance()->getWinSize();
-    
-    
-    if(bulletList.size()>0)
-    {
-        for(it=bulletList.begin();it!=bulletList.end();it++)
-        {
-            Vec2 pos=(*it)->getPosition();
-            if(pos.x<0 || pos.x>winSize.width || pos.y<0 || pos.y>winSize.height)
-            {
-                removingIt=it;
-                it--;
-                bulletList.erase(removingIt);
-            
-            }
-             (*it)->update();
-        
-        }
-    }
-     */
+
 }

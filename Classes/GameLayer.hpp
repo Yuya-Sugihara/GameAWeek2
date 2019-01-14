@@ -9,11 +9,13 @@
 using namespace cocos2d;
 
 class Bullet;
+class Player;
 
 enum Tag
 {
     T_Wall,
     T_Player,
+    T_Enemy,
     T_Stick,
     T_Bullet
 };
@@ -23,6 +25,7 @@ enum ZOrder
     Z_Bg,
     Z_Wall,
     Z_Player,
+    Z_Enemy,
     Z_Stick,
     Z_Bullet
 };
@@ -34,6 +37,7 @@ private:
     const float mGoalRadius=10;
     const Vec2 mGoalPos=Vec2(750,100);
     const Vec2 mPlayerInitPos=Vec2(300,600);
+    const Vec2 mEnemyInitPos=Vec2(700,600);
     Vec2 toAddPlayerPos;
     float toAddPlayerRotation;
     
@@ -61,6 +65,8 @@ public:
     void gameClear(int score);
     void changeToResultLayer();
     void removeBullet(std::list<Bullet*>* list);
+    
+    CC_SYNTHESIZE(Player*,mPlayer,Player);
     
 };
 

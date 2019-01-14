@@ -7,6 +7,11 @@
 using namespace cocos2d;
 
 class Wall;
+enum CharacterTag
+{
+    T_Muzzle
+};
+
 class Character:public Sprite
 {
 private:

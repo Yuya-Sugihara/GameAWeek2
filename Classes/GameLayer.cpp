@@ -4,6 +4,7 @@
 #include "Wall.hpp"
 #include "WallManager.hpp"
 #include "Player.hpp"
+#include "Enemy.hpp"
 
 #include "Stick.hpp"
 #include <cmath>
@@ -55,23 +56,26 @@ void GameLayer::onEnter()
 void GameLayer::update(float dt)
 {
     
-    Player* player=(Player*) getChildByTag(T_Player);
+    //Player* player=(Player*) getChildByTag(T_Player);
     Vec2 newPlayerPos=Vec2::ZERO;
-    Vec2 nextMovingVector=toAddPlayerPos*mPlayerMovementRate;
-    Vec2 playerPos=Vec2(player->getPosition().x,player->getPosition().y);
+    Vec2 nextMovingVector=mPlayer->getToAddVector()*mPlayerMovementRate;
+    Vec2 playerPos=Vec2(mPlayer->getPosition().x,mPlayer->getPosition().y);
     
-    if(!player->isContact(WallManager::getInstance()->getWallList(),nextMovingVector))
+    if(!mPlayer->isContact(WallManager::getInstance()->getWallList(),nextMovingVector))
     {
         newPlayerPos=playerPos + nextMovingVector;
     }else{
         newPlayerPos=playerPos;
     }
-    player->setPosition(newPlayerPos.x,newPlayerPos.y);
-    player->update();
+    mPlayer->setPosition(newPlayerPos.x,newPlayerPos.y);
+    mPlayer->update();
     
-    Muzzle* muzzle=player->getMuzzle();
+    Muzzle* muzzle=mPlayer->getMuzzle();
     std::list<Bullet*>* list=muzzle->getBulletList();
     if(list->size()) removeBullet(list);
+    
+    Enemy* enemy=(Enemy*) getChildByTag(T_Enemy);
+    enemy->update();
     
     judgeGameClear();
 }
@@ -99,10 +103,16 @@ void GameLayer::createStage()
     createWall(400,450,20,450);
     createWall(650,400,300,10);
     
-    Player* player=Player::create(20,20);
-    player->setPosition(mPlayerInitPos);
-    player->setTag(T_Player);
-    addChild(player,Z_Player);
+    mPlayer=Player::create(20,20);
+    mPlayer->setPosition(mPlayerInitPos);
+    mPlayer->setTag(T_Player);
+    addChild(mPlayer,Z_Player);
+    
+    Enemy* enemy=new Enemy(20,20);
+    enemy->setPosition(mEnemyInitPos);
+    enemy->setRotation(90);
+    enemy->setTag(T_Enemy);
+    addChild(enemy,Z_Enemy);
     
     Stick* stick=Stick::create();
     stick->setTag(T_Stick);
@@ -150,16 +160,15 @@ void GameLayer::touchEvent(Ref* sender,ui::TouchEventType type)
         case TOUCH_EVENT_BEGAN:
         {
             log("fire");
-            Player* player=(Player*) getChildByTag(T_Player);
-            Muzzle* muzzle=player->getMuzzle();
+            //Player* player=(Player*) getChildByTag(T_Player);
+            Muzzle* muzzle=mPlayer->getMuzzle();
             Vec2 forwardVector=Vec2(1,1);
-            forwardVector=Vec2(forwardVector.x*std::cos( (player->getRotation()*(M_PI/180)) ),
-                               forwardVector.y*std::sin( -(player->getRotation()*(M_PI/180)) ) );
+            forwardVector=Vec2(forwardVector.x*std::cos( (mPlayer->getRotation()*(M_PI/180)) ),
+                               forwardVector.y*std::sin( -(mPlayer->getRotation()*(M_PI/180)) ) );
             
             Bullet* bullet=muzzle->fire(forwardVector);
-            bullet->setPosition(player->getPosition());
+            bullet->setPosition(mPlayer->getPosition());
             bullet->setRotation( -forwardVector.getAngle()*(180/M_PI) );
-            log("TOUCH_EVENT_BEGAN");
             
             addChild(bullet,Z_Bullet);
             break;
@@ -181,8 +190,8 @@ void GameLayer::show()
 
 void GameLayer::judgeGameClear()
 {
-    Player* player=(Player*) getChildByTag(T_Player);
-    Rect playerRect=player->getBoundingBox();
+    //Player* player=(Player*) getChildByTag(T_Player);
+    Rect playerRect=mPlayer->getBoundingBox();
     //playerがゴールに到達したか
     if(playerRect.containsPoint(mGoalPos)) gameClear(100);
     
@@ -238,17 +247,17 @@ void GameLayer::onTouchMoved(Touch* touch,Event* event)
     
     Stick* stick=(Stick*) getChildByTag(T_Stick);
 
-    toAddPlayerPos=stick->slideStick(touch);
-    toAddPlayerRotation=toAddPlayerPos.getAngle()*(180/M_PI);
+    mPlayer->setToAddVector( stick->slideStick(touch) );
+    toAddPlayerRotation=mPlayer->getToAddVector().getAngle()*(180/M_PI);
    
-    Player* player=(Player*) getChildByTag(T_Player);
-    player->setRotation(-toAddPlayerRotation);
+    //Player* player=(Player*) getChildByTag(T_Player);
+    mPlayer->setRotation(-toAddPlayerRotation);
     
 }
 
 void GameLayer::onTouchEnded(Touch* touch,Event* event)
 {
-    toAddPlayerPos=Vec2::ZERO;
+    mPlayer->setToAddVector(Vec2::ZERO);
     toAddPlayerRotation=0.0f;
 }
 
