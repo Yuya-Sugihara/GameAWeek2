@@ -11,8 +11,15 @@ Enemy::Enemy(float width,float height)
     
 }
 
-
+//このクラスにstateMachineを持たせて、メンバ変数を変更、そのメンバ変数を参照して実行
 void Enemy::update()
 {
-    //muzzle->fire(Vec2(0,-1));
+    //stateMachine->execute();
 }
+
+/*
+ class StateMachine
+ {
+ Enemy*enemy;
+ };
+*/

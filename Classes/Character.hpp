@@ -31,7 +31,7 @@ public:
     
     virtual void update()=0;
     bool isContact(std::list<Wall*> walllist,Vec2 addVector);
-    bool isContact(std::list<Bullet*> walllist);
+    bool isContact(std::list<Bullet*> bulletlist);
     Muzzle* getMuzzle(){ return muzzle;}
     
     CC_SYNTHESIZE(Vec2,mToAddVector,ToAddVector);

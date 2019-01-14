@@ -5,6 +5,7 @@
 #include "WallManager.hpp"
 #include "Player.hpp"
 #include "Enemy.hpp"
+#include "StateMachine.hpp"
 
 #include "Stick.hpp"
 #include <cmath>
@@ -74,11 +75,14 @@ void GameLayer::update(float dt)
     if(playerBulletList->size()) updateBullet(playerBulletList);
     
     Enemy* enemy=(Enemy*) getChildByTag(T_Enemy);
+    //log("enemy: %p",enemy);
+    //enemy->getStateMachine()->update();
     //fire(enemy);
     
     Muzzle* enemyMuzzle=enemy->getMuzzle();
     std::list<Bullet*>* enemyBulletList=enemyMuzzle->getBulletList();
     if(enemyBulletList->size()) updateBullet(enemyBulletList);
+   
    
     judgeGameClear();
 }
@@ -124,6 +128,8 @@ void GameLayer::createStage()
     enemy->setTag(T_Enemy);
     addChild(enemy,Z_Enemy);
     
+    enemy->setStateMachine(new StateMachine(enemy));
+    log("stateMchine %p",enemy->getStateMachine());
     Stick* stick=Stick::create();
     stick->setTag(T_Stick);
     stick->moveStick(Vec2(125,125));
@@ -206,6 +212,7 @@ void GameLayer::judgeGameClear()
     Rect playerRect=mPlayer->getBoundingBox();
     //playerがゴールに到達したか
     if(playerRect.containsPoint(mGoalPos)) gameClear(100);
+    
     Enemy* enemy=(Enemy*) getChildByTag(T_Enemy);
     std::list<Bullet*>* enemyBulletList=enemy->getMuzzle()->getBulletList();
     std::list<Bullet*>* playerBulletList=mPlayer->getMuzzle()->getBulletList();
@@ -262,6 +269,8 @@ bool GameLayer::onTouchBegan(Touch* touch,Event* event)
     Stick* stick=(Stick*) getChildByTag(T_Stick);
     stick->moveStick(touch->getLocation());
     
+    Enemy* enemy=(Enemy*)getChildByTag(T_Enemy);
+    enemy->getStateMachine()->update();
     
     return true;
 }

@@ -7,6 +7,7 @@
 using namespace cocos2d;
 
 class Muzzle;
+class StateMachine;
 
 class Enemy:public Character
 {
@@ -16,5 +17,7 @@ public:
     Enemy(float width,float height);
     
     void update();
+    
+    CC_SYNTHESIZE(StateMachine*, mStateMachine, StateMachine);
 };
 #endif /* Enemy_hpp */

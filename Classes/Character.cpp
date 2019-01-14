@@ -39,13 +39,15 @@ bool Character::isContact(std::list<Wall*> wallList,Vec2 addVector)
     return false;
 }
 
-bool Character::isContact(std::list<Bullet*> wallList)
+bool Character::isContact(std::list<Bullet*> bulletList)
 {
     std::list<Bullet*>::iterator it;
-    for(it=wallList.begin();it!=wallList.end();it++)
+    //log("position.x: %f,position.y: %f",this->getPosition().x,this->getPosition().y);
+    for(it=bulletList.begin();it!=bulletList.end();it++)
     {
-        Rect wallRect=(*it)->getBoundingBox();
-        if(wallRect.containsPoint(this->getPosition())) return true;
+        Rect characterRect=getBoundingBox();
+        Vec2 bulletPosition=(*it)->getPosition();
+        if(characterRect.containsPoint(bulletPosition)) return true;
     }
     
     return false;
