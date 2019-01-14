@@ -74,10 +74,9 @@ void GameLayer::update(float dt)
     if(playerBulletList->size()) updateBullet(playerBulletList);
     
     Enemy* enemy=(Enemy*) getChildByTag(T_Enemy);
-    fire(enemy);
+    //fire(enemy);
     
     Muzzle* enemyMuzzle=enemy->getMuzzle();
-    //log("enemyMuzzle->getBulletList: %d",enemyMuzzle->getBulletList()->size());
     std::list<Bullet*>* enemyBulletList=enemyMuzzle->getBulletList();
     if(enemyBulletList->size()) updateBullet(enemyBulletList);
    
@@ -104,8 +103,15 @@ void GameLayer::createStage()
     sprite->setPosition(size.width/2,size.height/2);
     addChild(sprite,Z_Bg);
     
-    createWall(400,450,20,450);
+    auto bgPoint=sprite->getPosition();
+    auto bgSize=sprite->getContentSize();
+    createWall(400,450,10,450);
     createWall(650,400,300,10);
+    createWall(bgPoint.x-(bgSize.width/2),bgPoint.y                  ,10            , bgSize.height ); //左
+    createWall(bgPoint.x                 ,0                          , bgSize.width , 10); //下
+    createWall(bgPoint.x+(bgSize.width/2),bgPoint.y                  , 10           , bgSize.height ); //右
+    createWall(bgPoint.x                 ,bgPoint.y+(bgSize.height/2), bgSize.width , 10 ); //上
+    //ステージ変更はここからswitch
     
     mPlayer=Player::create(20,20);
     mPlayer->setPosition(mPlayerInitPos);
@@ -216,6 +222,7 @@ void GameLayer::updateBullet(std::list<Bullet*>* list)
     for(it=list->begin();it!=list->end();)
     {
         Vec2 pos=(*it)->getPosition();
+        /*
         if(pos.x<0 || pos.x>winSize.width || pos.y<0 || pos.y>winSize.height)
         {
             (*it)->removeFromParentAndCleanup(true);
@@ -224,13 +231,21 @@ void GameLayer::updateBullet(std::list<Bullet*>* list)
             {
                 return;
             }
-        }else{
-            (*it)->update();
+         }*/
+        log("getReflectedCount: %d,reflectCount: %d",
+            (*it)->getReflectedCount(),Bullet::reflectCount);
+        if((*it)->getReflectedCount()==Bullet::reflectCount)
+         {
+             (*it)->removeFromParentAndCleanup(true);
+             it=list->erase(it);
+             if(!list->size() ) return;
+             
+         }else{
+            (*it)->update(WallManager::getInstance()->getWallList());
             it++;
         }
     }
 }
-
 void GameLayer::gameClear(int score)
 {
     changeToResultLayer();

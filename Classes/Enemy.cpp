@@ -7,6 +7,7 @@ Enemy::Enemy(float width,float height)
     autorelease();
     characterColor=Color3B(30,100,30);
     setColor(characterColor);
+    log("Enemy position.x: %f,Enemy position.y: %f",getPosition().x,getPosition().y);
     
 }
 

@@ -3,7 +3,7 @@
 
 Wall* Wall::create(float width,float height)
 {
-    Wall* wall=new Wall();
+    Wall* wall=new Wall(width,height);
     if(!wall || !wall->init(width,height)) return nullptr;
     
     wall->autorelease();
@@ -20,12 +20,15 @@ bool Wall::init(float width,float height)
     return true;
 }
 
-Wall::Wall()
+Wall::Wall(float width,float height):
+mWidth((double) width),
+mHeight((double) height)
 {
     
 }
-
+/*
 Wall::Wall(float width,float height)
 {
    
 }
+ */

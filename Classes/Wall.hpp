@@ -13,10 +13,16 @@ private:
     Rect mRect;
     
 public:
+    
     static Wall* create(float width,float height);
     bool init(float width,float height);
     Wall();
     Wall(float width,float height);
+    
+    CC_SYNTHESIZE(float, mX, X);
+    CC_SYNTHESIZE(float, mY, Y);
+    CC_SYNTHESIZE(double, mWidth, Width);
+    CC_SYNTHESIZE(double, mHeight, Height);
     
 };
 #endif /* Wall_hpp */
