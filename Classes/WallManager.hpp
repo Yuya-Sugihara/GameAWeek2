@@ -6,7 +6,7 @@
 
 #include "cocos2d.h"
 #include <list>
-
+#include "Wall.hpp"
 using namespace cocos2d;
 
 class Wall;
@@ -19,6 +19,10 @@ public:
     void addWall(Wall* wall);
     std::list<Wall*> getWallList();
     int getSize();
+    std::list<Wall*>::iterator getFirstWall()
+    {
+        return wallList.begin();
+    }
 private:
     static WallManager* instance;
     std::list<Wall*> wallList;

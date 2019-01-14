@@ -2,7 +2,7 @@
 #ifndef GameLayer_hpp
 #define GameLayer_hpp
 
-//#include <stdio.h>
+#include <stdio.h>
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 
@@ -51,10 +51,10 @@ public:
     virtual void update(float dt) override;
     
     static Scene* createScene();
-    virtual bool onTouchBegan(Touch* touch,Event* event) override;
-    virtual void onTouchMoved(Touch* touch,Event* event) override;
-    virtual void onTouchEnded(Touch* touch,Event* event) override;
-    virtual void onTouchCancelled(Touch* touch,Event* event) override;
+    virtual void onTouchesBegan(const std::vector<Touch*> &touch,Event* event) override;
+    virtual void onTouchesMoved(const std::vector<Touch*> &touch,Event* event) override;
+    virtual void onTouchesEnded(const std::vector<Touch*> &touch,Event* event) override;
+    virtual void onTouchesCancelled(const std::vector<Touch*> &touch,Event* event) override;
     void touchEvent(Ref* sender,ui::TouchEventType type);
     
     void show();

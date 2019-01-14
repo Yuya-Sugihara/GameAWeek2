@@ -1,6 +1,6 @@
 #include "StateMachine.hpp"
 #include "Enemy.hpp"
-
+#include "WallManager.hpp"
 
 StateMachine::StateMachine(Enemy* enemy):
 mEnemy(enemy),
@@ -120,6 +120,8 @@ void Attack::enter()
     log("in Attack::enter()");
     log("Enemy->getPosition().x: %f,Enemy->getPosition().y: %f",
         mEnemy->getPosition().x,mEnemy->getPosition().y);
+    log("wall.x: %lf",(*( WallManager::getInstance()->getFirstWall() ))->getWidth() );
+    
 }
 
 void Attack::execute()

@@ -1,5 +1,5 @@
 #include "WallManager.hpp"
-#include "Wall.hpp"
+
 
 WallManager* WallManager::instance=nullptr;
 

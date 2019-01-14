@@ -41,12 +41,13 @@ void GameLayer::onEnter()
 {
     Layer::onEnter();
     
-    EventListenerTouchOneByOne* gameListener=EventListenerTouchOneByOne::create();
-    gameListener->setSwallowTouches(true);
-    gameListener->onTouchBegan=CC_CALLBACK_2(GameLayer::onTouchBegan,this);
-    gameListener->onTouchMoved=CC_CALLBACK_2(GameLayer::onTouchMoved,this);
-    gameListener->onTouchEnded=CC_CALLBACK_2(GameLayer::onTouchEnded,this);
-    gameListener->onTouchCancelled=CC_CALLBACK_2(GameLayer::onTouchCancelled,this);
+    EventListenerTouchAllAtOnce* gameListener=EventListenerTouchAllAtOnce::create();
+    //gameListener->setSwallowTouches(true);
+    gameListener->setEnabled(true);
+    gameListener->onTouchesBegan=CC_CALLBACK_2(GameLayer::onTouchesBegan,this);
+    gameListener->onTouchesMoved=CC_CALLBACK_2(GameLayer::onTouchesMoved,this);
+    gameListener->onTouchesEnded=CC_CALLBACK_2(GameLayer::onTouchesEnded,this);
+    gameListener->onTouchesCancelled=CC_CALLBACK_2(GameLayer::onTouchesCancelled,this);
     Director::getInstance()->getEventDispatcher()
     ->addEventListenerWithSceneGraphPriority(gameListener,this);
     
@@ -263,37 +264,37 @@ void GameLayer::changeToResultLayer()
     Director::getInstance()->replaceScene(scene);
 }
 
-bool GameLayer::onTouchBegan(Touch* touch,Event* event)
+void GameLayer::onTouchesBegan(const std::vector<Touch*> &touch,Event* event)
 {
     
     Stick* stick=(Stick*) getChildByTag(T_Stick);
-    stick->moveStick(touch->getLocation());
+    stick->moveStick(touch.at(0)->getLocation());
     
     Enemy* enemy=(Enemy*)getChildByTag(T_Enemy);
     enemy->getStateMachine()->update();
     
-    return true;
+    //return true;
 }
 
-void GameLayer::onTouchMoved(Touch* touch,Event* event)
+void GameLayer::onTouchesMoved(const std::vector<Touch*> &touch,Event* event)
 {
     
     Stick* stick=(Stick*) getChildByTag(T_Stick);
 
-    mPlayer->setToAddVector( stick->slideStick(touch) );
+    mPlayer->setToAddVector( stick->slideStick(touch.at(0)) );
     mPlayer->setToAddRotation( mPlayer->getToAddVector().getAngle()*(180/M_PI) );
    
     mPlayer->setRotation(-mPlayer->getToAddRotation());
     
 }
 
-void GameLayer::onTouchEnded(Touch* touch,Event* event)
+void GameLayer::onTouchesEnded(const std::vector<Touch*> &touch,Event* event)
 {
     mPlayer->setToAddVector(Vec2::ZERO);
     toAddPlayerRotation=0.0f;
 }
 
-void GameLayer::onTouchCancelled(Touch* touch,Event* event)
+void GameLayer::onTouchesCancelled(const std::vector<Touch*> &touch,Event* event)
 {
-    onTouchEnded(touch,event);
+    //onTouchEnded(&touch,event);
 }
