@@ -17,7 +17,7 @@ GameLayer::GameLayer()
 
 GameLayer::~GameLayer()
 {
-    
+    WallManager::destroy();
 }
 
 GameLayer* GameLayer::create()
@@ -56,7 +56,6 @@ void GameLayer::onEnter()
 void GameLayer::update(float dt)
 {
     
-    //Player* player=(Player*) getChildByTag(T_Player);
     Vec2 newPlayerPos=Vec2::ZERO;
     Vec2 nextMovingVector=mPlayer->getToAddVector()*mPlayerMovementRate;
     Vec2 playerPos=Vec2(mPlayer->getPosition().x,mPlayer->getPosition().y);
@@ -70,13 +69,18 @@ void GameLayer::update(float dt)
     mPlayer->setPosition(newPlayerPos.x,newPlayerPos.y);
     mPlayer->update();
     
-    Muzzle* muzzle=mPlayer->getMuzzle();
-    std::list<Bullet*>* list=muzzle->getBulletList();
-    if(list->size()) removeBullet(list);
+    Muzzle* playerBulletMuzzle=mPlayer->getMuzzle();
+    std::list<Bullet*>* playerBulletList=playerBulletMuzzle->getBulletList();
+    if(playerBulletList->size()) updateBullet(playerBulletList);
     
     Enemy* enemy=(Enemy*) getChildByTag(T_Enemy);
-    enemy->update();
+    fire(enemy);
     
+    Muzzle* enemyMuzzle=enemy->getMuzzle();
+    //log("enemyMuzzle->getBulletList: %d",enemyMuzzle->getBulletList()->size());
+    std::list<Bullet*>* enemyBulletList=enemyMuzzle->getBulletList();
+    if(enemyBulletList->size()) updateBullet(enemyBulletList);
+   
     judgeGameClear();
 }
 Scene* GameLayer::createScene()
@@ -108,7 +112,7 @@ void GameLayer::createStage()
     mPlayer->setTag(T_Player);
     addChild(mPlayer,Z_Player);
     
-    Enemy* enemy=new Enemy(20,20);
+    Enemy* enemy=new Enemy(50,50);
     enemy->setPosition(mEnemyInitPos);
     enemy->setRotation(90);
     enemy->setTag(T_Enemy);
@@ -160,26 +164,29 @@ void GameLayer::touchEvent(Ref* sender,ui::TouchEventType type)
         case TOUCH_EVENT_BEGAN:
         {
             log("fire");
-            //Player* player=(Player*) getChildByTag(T_Player);
-            Muzzle* muzzle=mPlayer->getMuzzle();
-            Vec2 forwardVector=Vec2(1,1);
-            forwardVector=Vec2(forwardVector.x*std::cos( (mPlayer->getRotation()*(M_PI/180)) ),
-                               forwardVector.y*std::sin( -(mPlayer->getRotation()*(M_PI/180)) ) );
-            
-            Bullet* bullet=muzzle->fire(forwardVector);
-            bullet->setPosition(mPlayer->getPosition());
-            bullet->setRotation( -forwardVector.getAngle()*(180/M_PI) );
-            
-            addChild(bullet,Z_Bullet);
+            fire(mPlayer);
             break;
         }
         default:
             
             break;
     }
-   
-    
 }
+void GameLayer::fire(Character* character)
+{
+    //log("fired");
+    Muzzle* muzzle=character->getMuzzle();
+    Vec2 forwardVector=Vec2(1,1);
+    forwardVector=Vec2(forwardVector.x*std::cos( (character->getRotation()*(M_PI/180)) ),
+                       forwardVector.y*std::sin( -(character->getRotation()*(M_PI/180)) ) );
+    
+    Bullet* bullet=muzzle->fire(forwardVector);
+    bullet->setPosition(character->getPosition());
+    bullet->setRotation( -forwardVector.getAngle()*(180/M_PI) );
+    
+    addChild(bullet,Z_Bullet);
+}
+
 void GameLayer::show()
 {
     Label* label=Label::createWithSystemFont("GameLayer","arial",56);
@@ -190,21 +197,22 @@ void GameLayer::show()
 
 void GameLayer::judgeGameClear()
 {
-    //Player* player=(Player*) getChildByTag(T_Player);
     Rect playerRect=mPlayer->getBoundingBox();
     //playerがゴールに到達したか
     if(playerRect.containsPoint(mGoalPos)) gameClear(100);
-    
+    Enemy* enemy=(Enemy*) getChildByTag(T_Enemy);
+    std::list<Bullet*>* enemyBulletList=enemy->getMuzzle()->getBulletList();
+    std::list<Bullet*>* playerBulletList=mPlayer->getMuzzle()->getBulletList();
+    if( mPlayer->isContact(*enemyBulletList) ) changeToResultLayer();
+    if( enemy->isContact(*playerBulletList) ) changeToResultLayer();
 }
 
-void GameLayer::removeBullet(std::list<Bullet*>* list)
+void GameLayer::updateBullet(std::list<Bullet*>* list)
 {
-
     std::list<Bullet*>::iterator it;
     std::list<Bullet*>::iterator removingIt;
     Size winSize=Director::getInstance()->getWinSize();
     
-  
     for(it=list->begin();it!=list->end();)
     {
         Vec2 pos=(*it)->getPosition();
@@ -222,6 +230,7 @@ void GameLayer::removeBullet(std::list<Bullet*>* list)
         }
     }
 }
+
 void GameLayer::gameClear(int score)
 {
     changeToResultLayer();
@@ -248,10 +257,9 @@ void GameLayer::onTouchMoved(Touch* touch,Event* event)
     Stick* stick=(Stick*) getChildByTag(T_Stick);
 
     mPlayer->setToAddVector( stick->slideStick(touch) );
-    toAddPlayerRotation=mPlayer->getToAddVector().getAngle()*(180/M_PI);
+    mPlayer->setToAddRotation( mPlayer->getToAddVector().getAngle()*(180/M_PI) );
    
-    //Player* player=(Player*) getChildByTag(T_Player);
-    mPlayer->setRotation(-toAddPlayerRotation);
+    mPlayer->setRotation(-mPlayer->getToAddRotation());
     
 }
 

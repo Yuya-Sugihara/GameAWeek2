@@ -17,6 +17,15 @@ WallManager* WallManager::getInstance()
     return instance;
 }
 
+void WallManager::destroy()
+{
+    if(instance)
+    {
+        delete instance;
+        instance=0;
+    }
+}
+
 WallManager::WallManager()
 {
 

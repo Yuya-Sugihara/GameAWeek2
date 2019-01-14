@@ -15,6 +15,7 @@ class WallManager:public Ref
 {
 public:
     static WallManager* getInstance();
+    static void destroy();
     void addWall(Wall* wall);
     std::list<Wall*> getWallList();
     int getSize();

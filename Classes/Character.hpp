@@ -7,6 +7,9 @@
 using namespace cocos2d;
 
 class Wall;
+class Muzzle;
+class Bullet;
+
 enum CharacterTag
 {
     T_Muzzle
@@ -19,7 +22,7 @@ private:
 protected:
     Rect* characterRect;
     Color3B characterColor;
-    
+    Muzzle* muzzle;
 public:
     //static Character* create();
     virtual bool init(float width,float height);
@@ -28,6 +31,11 @@ public:
     
     virtual void update()=0;
     bool isContact(std::list<Wall*> walllist,Vec2 addVector);
-    //bool isContact(Wall* wall,Vec2 addVector);
+    bool isContact(std::list<Bullet*> walllist);
+    Muzzle* getMuzzle(){ return muzzle;}
+    
+    CC_SYNTHESIZE(Vec2,mToAddVector,ToAddVector);
+    CC_SYNTHESIZE(float,mToAddRotation,ToAddRotation);
+    
 };
 #endif /* Character_hpp */

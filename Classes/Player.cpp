@@ -16,10 +16,6 @@ bool Player::init(float width,float height)
     if(!Character::init(width,height)) return false;
     setColor(characterColor);
     
-    muzzle=Muzzle::create(width/2,height/2);
-    muzzle->setPosition(width*(5/4),height/2);
-    this->addChild(muzzle,T_Muzzle);
-
     return true;
 }
 
@@ -29,6 +25,6 @@ Player::Player()
 }
 void Player::update()
 {
-    //muzzle->update();
+    
 }
 

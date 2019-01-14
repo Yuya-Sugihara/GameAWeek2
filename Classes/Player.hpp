@@ -13,7 +13,7 @@ class Muzzle;
 class Player:public Character
 {
 private:
-    Muzzle* muzzle;
+    //Muzzle* muzzle;
     
 public:
     static Player* create(float width,float height);
@@ -22,8 +22,6 @@ public:
     void update();
     
     void moveByStick(Vec2* vector);
-    Muzzle* getMuzzle(){ return muzzle;}
     
-    CC_SYNTHESIZE(Vec2,mToAddVector,ToAddVector);
 };
 #endif /* Player_hpp */

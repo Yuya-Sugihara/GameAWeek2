@@ -11,7 +11,7 @@ class Muzzle;
 class Enemy:public Character
 {
 private:
-    Muzzle* muzzle;
+    
 public:
     Enemy(float width,float height);
     

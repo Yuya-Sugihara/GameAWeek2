@@ -9,6 +9,7 @@
 using namespace cocos2d;
 
 class Bullet;
+class Character;
 class Player;
 
 enum Tag
@@ -38,7 +39,6 @@ private:
     const Vec2 mGoalPos=Vec2(750,100);
     const Vec2 mPlayerInitPos=Vec2(300,600);
     const Vec2 mEnemyInitPos=Vec2(700,600);
-    Vec2 toAddPlayerPos;
     float toAddPlayerRotation;
     
     DrawNode* goal;
@@ -64,7 +64,8 @@ public:
     void judgeGameClear();
     void gameClear(int score);
     void changeToResultLayer();
-    void removeBullet(std::list<Bullet*>* list);
+    void fire(Character* character);
+    void updateBullet(std::list<Bullet*>* list);
     
     CC_SYNTHESIZE(Player*,mPlayer,Player);
     

@@ -1,22 +1,17 @@
 #include "Character.hpp"
 #include "Wall.hpp"
-
-/*
-Character* Character::create()
-{
-    Character* character=new Character();
-    if(!Character || character->init()) return nullptr;
-    character->autorelease();
-    
-    return character;
-}
-*/
+#include "Muzzle.hpp"
 
 bool Character::init(float width,float height)
 {
     if(!Sprite::init()) return false;
     characterRect=new Rect(0,0,width,height);
     setTextureRect(*characterRect);
+    
+    muzzle=Muzzle::create(width/2,height/2);
+    muzzle->setPosition(width*(5/4),height/2);
+    this->addChild(muzzle,T_Muzzle);
+
     return true;
 }
 
@@ -41,7 +36,18 @@ bool Character::isContact(std::list<Wall*> wallList,Vec2 addVector)
         Rect wallRect=(*it)->getBoundingBox();
         if(characterRect.intersectsRect(wallRect)) return true;
     }
+    return false;
+}
 
+bool Character::isContact(std::list<Bullet*> wallList)
+{
+    std::list<Bullet*>::iterator it;
+    for(it=wallList.begin();it!=wallList.end();it++)
+    {
+        Rect wallRect=(*it)->getBoundingBox();
+        if(wallRect.containsPoint(this->getPosition())) return true;
+    }
+    
     return false;
 }
 
