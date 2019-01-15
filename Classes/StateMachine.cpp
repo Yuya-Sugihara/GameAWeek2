@@ -87,7 +87,8 @@ void Patrol::enter()
 void Patrol::execute()
 {
     log("in Patrol::execute()");
-    mEnemy->getStateMachine()->setNextState(S_Access);
+    mEnemy->patrol(mPlayer->getPosition());
+    //mEnemy->getStateMachine()->setNextState(S_Access);
 }
 
 void Patrol::exit()
@@ -110,8 +111,7 @@ void Access::enter()
 void Access::execute()
 {
     log("in Access::execute()");
-    Vec2 toPlayerVector=mPlayer->getPosition()-mEnemy->getPosition();
-    mEnemy->lookAt(toPlayerVector);
+    mEnemy->access(mPlayer->getPosition());
     //mEnemy->getStateMachine()->setNextState(S_Attack);
 }
 
@@ -139,13 +139,12 @@ void Attack::execute()
 {
     log("in Attack::execute()");
     
-    if(mEnemy->getMuzzle()->getBulletList()->size()<Muzzle::maxBulletCount)
-    {
+  
         Vec2 toPlayerVector=mPlayer->getPosition()-mEnemy->getPosition();
         mEnemy->lookAt(toPlayerVector);
-        auto gameLayer=mEnemy->getParent();
+        
         mEnemy->fire();
-    }
+    
     //mEnemy->getStateMachine()->setNextState(S_Patrol);
 }
 

@@ -51,9 +51,17 @@ void Character::fire()
 }
 bool Character::isContact(std::list<Wall*> wallList,Vec2 addVector)
 {
-    Rect characterRect=this->getBoundingBox();
- 
-    characterRect.origin+=addVector;
+    Rect characterRect=getBoundingBox();
+    log("character.x: %f,character.y: %f",
+        getPosition().x,getPosition().y);
+    log("origin.x: %f,origin.y: %f",
+        characterRect.origin.x,characterRect.origin.y);
+    //characterRect.origin=getPosition();
+    characterRect.origin+=addVector*3;
+    /*
+    characterRect.size.width*=0.8f;
+    characterRect.size.height*=0.8f;
+     */
     std::list<Wall*>::iterator it;
     for(it=wallList.begin();it!=wallList.end();it++)
     {
