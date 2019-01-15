@@ -25,6 +25,30 @@ Character::~Character()
     
 }
 
+void Character::lookAt(Vec2 direction)
+{
+    float rotation=direction.getAngle()*(180/M_PI);
+    setRotation(-rotation);
+}
+
+void Character::fire()
+{
+    if(muzzle->getBulletList()->size()< Muzzle::maxBulletCount)
+    {
+        Vec2 forwardVector=Vec2(1,1);
+        forwardVector=Vec2(forwardVector.x*std::cos( (getRotation()*(M_PI/180)) ),
+                       forwardVector.y*std::sin( -(getRotation()*(M_PI/180)) ) );
+    
+        Bullet* bullet=muzzle->fire(forwardVector);
+        bullet->setPosition(getPosition());
+        bullet->setRotation( -forwardVector.getAngle()*(180/M_PI) );
+        
+        Layer* gameLayer=(Layer*)getParent();
+        gameLayer->addChild(bullet);
+        
+    }
+    
+}
 bool Character::isContact(std::list<Wall*> wallList,Vec2 addVector)
 {
     Rect characterRect=this->getBoundingBox();

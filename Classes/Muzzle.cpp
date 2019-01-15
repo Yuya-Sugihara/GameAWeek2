@@ -22,9 +22,13 @@ bool Muzzle::init(float width,float height)
 
 Bullet* Muzzle::fire(Vec2 direction)
 {
-    Bullet* bullet=Bullet::create(10,10,direction);
-    bulletList.push_back(bullet);
-    return bullet;
+    if(bulletList.size()<maxBulletCount)
+    {
+        Bullet* bullet=Bullet::create(10,10,direction);
+        bulletList.push_back(bullet);
+        return bullet;
+    }
+    return nullptr;
 }
 
 void Muzzle::update()

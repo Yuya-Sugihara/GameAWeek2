@@ -14,6 +14,7 @@ private:
     Rect* muzzleRect;
     std::list<Bullet*> bulletList;
 public:
+    static const int maxBulletCount=5;
     static Muzzle* create(float width,float height);
     bool init(float width,float height);
     

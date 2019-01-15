@@ -77,7 +77,7 @@ void GameLayer::update(float dt)
     
     Enemy* enemy=(Enemy*) getChildByTag(T_Enemy);
     //log("enemy: %p",enemy);
-    //enemy->getStateMachine()->update();
+    enemy->getStateMachine()->update();
     //fire(enemy);
     
     Muzzle* enemyMuzzle=enemy->getMuzzle();
@@ -129,7 +129,7 @@ void GameLayer::createStage()
     enemy->setTag(T_Enemy);
     addChild(enemy,Z_Enemy);
     
-    enemy->setStateMachine(new StateMachine(enemy));
+    enemy->setStateMachine(new StateMachine(enemy,mPlayer));
     log("stateMchine %p",enemy->getStateMachine());
     Stick* stick=Stick::create();
     stick->setTag(T_Stick);
@@ -177,27 +177,14 @@ void GameLayer::touchEvent(Ref* sender,ui::TouchEventType type)
         case TOUCH_EVENT_BEGAN:
         {
             log("fire");
-            fire(mPlayer);
+            
+            mPlayer->fire();
             break;
         }
         default:
             
             break;
     }
-}
-void GameLayer::fire(Character* character)
-{
-    //log("fired");
-    Muzzle* muzzle=character->getMuzzle();
-    Vec2 forwardVector=Vec2(1,1);
-    forwardVector=Vec2(forwardVector.x*std::cos( (character->getRotation()*(M_PI/180)) ),
-                       forwardVector.y*std::sin( -(character->getRotation()*(M_PI/180)) ) );
-    
-    Bullet* bullet=muzzle->fire(forwardVector);
-    bullet->setPosition(character->getPosition());
-    bullet->setRotation( -forwardVector.getAngle()*(180/M_PI) );
-    
-    addChild(bullet,Z_Bullet);
 }
 
 void GameLayer::show()
@@ -270,9 +257,10 @@ void GameLayer::onTouchesBegan(const std::vector<Touch*> &touch,Event* event)
     Stick* stick=(Stick*) getChildByTag(T_Stick);
     stick->moveStick(touch.at(0)->getLocation());
     
+    /*
     Enemy* enemy=(Enemy*)getChildByTag(T_Enemy);
     enemy->getStateMachine()->update();
-    
+    */
     //return true;
 }
 

@@ -1,18 +1,22 @@
 #include "StateMachine.hpp"
 #include "Enemy.hpp"
+#include "Player.hpp"
 #include "WallManager.hpp"
-
-StateMachine::StateMachine(Enemy* enemy):
+#include <cmath>
+StateMachine::StateMachine(Enemy* enemy,Player* player):
 mEnemy(enemy),
+mPlayer(player),
 mNextState(S_None)
 {
-    state=new Patrol(enemy);
+    state=new Patrol(mEnemy,mPlayer);
+    state->enter();
 }
 
 StateMachine::~StateMachine()
 {
     delete state;
     delete mEnemy;
+    delete mPlayer;
 }
 
 void StateMachine::update()
@@ -33,28 +37,30 @@ void StateMachine::changeState()
         case S_Patrol:
             delete state;
             state=0;
-            state=new Patrol(mEnemy);
+            state=new Patrol(mEnemy,mPlayer);
             break;
         case S_Access:
             delete state;
             state=0;
-            state=new Access(mEnemy);
+            state=new Access(mEnemy,mPlayer);
             break;
         case S_Attack:
             delete state;
             state=0;
-            state=new Attack(mEnemy);
+            state=new Attack(mEnemy,mPlayer);
             break;
         default:
             log("changerState() ERROR");
             break;
     }
+    
     state->enter();
     mNextState=S_None;
 }
 
-State::State(Enemy* enemy):
-mEnemy(enemy)
+State::State(Enemy* enemy,Player* player):
+mEnemy(enemy),
+mPlayer(player)
 {
     log("in State::State");
 }
@@ -65,8 +71,8 @@ State::~State()
     //delete mEnemy;
 }
 
-Patrol::Patrol(Enemy* enemy):
-State(enemy)
+Patrol::Patrol(Enemy* enemy,Player* player):
+State(enemy,player)
 {
     log("in patrol::patrol");
 }
@@ -74,6 +80,8 @@ State(enemy)
 void Patrol::enter()
 {
     log("in Patrol::enter()");
+    log("playerPosition.x: %f,playerPosition.y: %f",
+        mPlayer->getPosition().x,mPlayer->getPosition().y);
 }
 
 void Patrol::execute()
@@ -87,8 +95,8 @@ void Patrol::exit()
     log("in Patrol::exit()");
 }
 
-Access::Access(Enemy*enemy):
-State(enemy)
+Access::Access(Enemy* enemy,Player* player):
+State(enemy,player)
 {
     log("in Access::Access");
 }
@@ -96,12 +104,15 @@ State(enemy)
 void Access::enter()
 {
     log("in Access::enter()");
+   
 }
 
 void Access::execute()
 {
     log("in Access::execute()");
-    mEnemy->getStateMachine()->setNextState(S_Attack);
+    Vec2 toPlayerVector=mPlayer->getPosition()-mEnemy->getPosition();
+    mEnemy->lookAt(toPlayerVector);
+    //mEnemy->getStateMachine()->setNextState(S_Attack);
 }
 
 void Access::exit()
@@ -109,8 +120,8 @@ void Access::exit()
     log("in Access::exit()");
 }
 
-Attack::Attack(Enemy*enemy):
-State(enemy)
+Attack::Attack(Enemy* enemy,Player* player):
+State(enemy,player)
 {
     log("in Attack::Access");
 }
@@ -127,7 +138,15 @@ void Attack::enter()
 void Attack::execute()
 {
     log("in Attack::execute()");
-    mEnemy->getStateMachine()->setNextState(S_Patrol);
+    
+    if(mEnemy->getMuzzle()->getBulletList()->size()<Muzzle::maxBulletCount)
+    {
+        Vec2 toPlayerVector=mPlayer->getPosition()-mEnemy->getPosition();
+        mEnemy->lookAt(toPlayerVector);
+        auto gameLayer=mEnemy->getParent();
+        mEnemy->fire();
+    }
+    //mEnemy->getStateMachine()->setNextState(S_Patrol);
 }
 
 void Attack::exit()

@@ -7,6 +7,7 @@
 using namespace cocos2d;
 
 class Enemy;
+class Player;
 class State;
 
 enum EnemyState
@@ -20,7 +21,7 @@ enum EnemyState
 class StateMachine:public Ref
 {
 public:
-    StateMachine(Enemy* enemy);
+    StateMachine(Enemy* enemy,Player* player);
     ~StateMachine();
     void update();
     void changeState();
@@ -28,26 +29,27 @@ public:
 private:
     Enemy* mEnemy;
     State* state;
-    EnemyState currentState;
+    Player* mPlayer;
     
 };
 
 class State:public Ref
 {
 public:
-    State(Enemy* enemy);
+    State(Enemy* enemy,Player* player);
     ~State();
     virtual void enter()=0;
     virtual void execute()=0;
     virtual void exit()=0;
 protected:
     Enemy* mEnemy;
+    Player* mPlayer;
 };
 
 class Patrol:public State
 {
 public:
-    Patrol(Enemy* enemy);
+    Patrol(Enemy* enemy,Player* player);
     virtual void enter() override;
     virtual void execute() override;
     virtual void exit() override;
@@ -56,7 +58,7 @@ public:
 class Access:public State
 {
 public:
-    Access(Enemy* enemy);
+    Access(Enemy* enemy,Player* player);
     virtual void enter() override;
     virtual void execute() override;
     virtual void exit() override;
@@ -65,7 +67,7 @@ public:
 class Attack:public State
 {
 public:
-    Attack(Enemy* enemy);
+    Attack(Enemy* enemy,Player* player);
     virtual void enter() override;
     virtual void execute() override;
     virtual void exit() override;

@@ -30,6 +30,8 @@ public:
     ~Character();
     
     virtual void update()=0;
+    void lookAt(Vec2 direction);
+    void fire();
     bool isContact(std::list<Wall*> walllist,Vec2 addVector);
     bool isContact(std::list<Bullet*> bulletlist);
     Muzzle* getMuzzle(){ return muzzle;}

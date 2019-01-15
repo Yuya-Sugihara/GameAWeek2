@@ -64,7 +64,7 @@ public:
     void judgeGameClear();
     void gameClear(int score);
     void changeToResultLayer();
-    void fire(Character* character);
+    
     void updateBullet(std::list<Bullet*>* list);
     
     CC_SYNTHESIZE(Player*,mPlayer,Player);
